@@ -1,0 +1,134 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../WEB-INF/templates/authTemplate.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:define name="title">
+        Welcome Students #{loginController.remoteUser}
+    </ui:define>
+
+    <ui:define name="content">
+
+
+
+        <h:dataTable value="#{studentsController.students}" 
+                     var="students"
+                     styleClass="table table-hover table-striped" class="table table-bordered">
+            <h:column>
+                <f:facet name="header"><h:outputText value="ID"/></f:facet>
+                <h:outputText value="#{students.id}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header"><h:outputText value="First Name"/></f:facet>
+                <h:outputText value="#{students.firstName}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header"><h:outputText value="Last Name"/></f:facet>
+                <h:outputText value="#{students.lastName}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header"><h:outputText value="Username"/></f:facet>
+                <h:outputText value="#{students.user.userName}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header"><h:outputText value="Last Updated"/></f:facet>
+                <h:outputText value="#{students.lastUpdated}">
+                    <f:convertDateTime type="both" 
+                                       dateStyle="short" 
+                                       timeStyle="full"
+                                       timeZone="#{appConfig.defaultTimeZone}"/>
+                </h:outputText>
+            </h:column>
+        </h:dataTable>
+        <h2>Books borrowed by you are : </h2>
+
+        <h:dataTable  styleClass="table table-hover table-striped" value="#{studentsController.students.books}" var="book" class="table table-bordered">
+            <h:column>
+                <f:facet name="header">
+                    <h:outputText value="ID"/>
+                </f:facet>
+                <h:outputText value="#{book.id}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">
+                    <h:outputText value="Name"/>
+                </f:facet>
+                <h:outputText value="#{book.title}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">
+                    <h:outputText value="Description"/>
+                </f:facet>
+                <h:outputText value="#{book.description}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">
+                    <h:outputText value="Pages"/>
+                </f:facet>
+                <h:outputText value="#{book.nbOfPage}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">
+                    <h:outputText value="Book Type"/>
+                </f:facet>
+                <h:outputText value="#{book.type.name}"/>
+            </h:column>
+        </h:dataTable>
+
+        <h2>Books Available: </h2>
+
+        <h:dataTable  styleClass="table table-hover table-striped" value="#{studentsService.findAlls()}" var="book" class="table table-bordered">
+            <h:column>
+                <f:facet name="header">
+                    <h:outputText value="ID"/>
+                </f:facet>
+                <h:outputText value="#{book.id}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">
+                    <h:outputText value="Name"/>
+                </f:facet>
+                <h:outputText value="#{book.title}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">
+                    <h:outputText value="Description"/>
+                </f:facet>
+                <h:outputText value="#{book.description}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">
+                    <h:outputText value="Book Type"/>
+                </f:facet>
+                <h:outputText value="#{book.type.name}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">
+                    <h:outputText value="NumberOfPages"/>
+                </f:facet>
+                <h:outputText value="#{book.nbOfPage}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">
+                    <h:outputText value="Version"/>
+                </f:facet>
+                <h:outputText value="#{book.version}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">
+                    <h:outputText value="ISBN"/>
+                </f:facet>
+                <h:outputText value="#{book.isbn}"/>
+            </h:column>
+        </h:dataTable>
+
+
+        <h:form>
+            <h:commandLink action="#{loginController.doLogout()}" value="Logout" class="btn btn-success"/>
+        </h:form>
+    </ui:define>
+
+</ui:composition>
+

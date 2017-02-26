@@ -1,0 +1,24 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../WEB-INF/templates/authTemplate.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:ezcomp="http://xmlns.jcp.org/jsf/composite/ezcomp">
+
+    <ui:define name="title">
+        Welcome librarian #{loginController.remoteUser}
+    </ui:define>
+
+    <ui:define name="content">
+
+        <ezcomp:student student="#{librarianController.student}" readonly="true" />        
+        
+        <h:link outcome="/librarian/welcome.xhtml?faces-redirect=true" value="Back" />
+        
+        <h:form>
+            <h:commandLink action="#{loginController.doLogout()}" value="Logout"/>
+        </h:form>
+    </ui:define>
+
+</ui:composition>

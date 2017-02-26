@@ -1,0 +1,154 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../WEB-INF/templates/authTemplate.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:define name="title">
+        Welcome Librarian #{loginController.remoteUser}
+    </ui:define>
+
+    <ui:define name="content">
+
+        <h:dataTable value="#{librarianService.findByUsername(loginController.remoteUser)}" 
+                     var="librarian"
+                     styleClass="table table-hover table-striped" class="table table-bordered">
+            <h:column>
+                <f:facet name="header"><h:outputText value="ID"/></f:facet>
+                <h:outputText value="#{librarian.id}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header"><h:outputText value="First Name"/></f:facet>
+                <h:outputText value="#{librarian.firstName}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header"><h:outputText value="Last Name"/></f:facet>
+                <h:outputText value="#{librarian.lastName}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header"><h:outputText value="Username"/></f:facet>
+                <h:outputText value="#{librarian.user.userName}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header"><h:outputText value="Last Updated"/></f:facet>
+                <h:outputText value="#{librarian.lastUpdated}">
+                    <f:convertDateTime type="both" 
+                                       dateStyle="short" 
+                                       timeStyle="full"
+                                       timeZone="#{appConfig.defaultTimeZone}"/>
+                </h:outputText>
+            </h:column>
+        </h:dataTable>
+        <h2>Your books</h2>
+
+        <h:form>
+            <h:commandLink value="Create a Book" 
+                           action="#{librarianController.doCreate()}"/>
+        </h:form>
+
+        <h:dataTable 
+            styleClass="table table-hover table-striped"
+            value="#{librarianController.librarian.books}" 
+            var="bk" class="table table-bordered">
+            <h:column>
+                <f:facet name="header">
+                    <h:outputText value="ID"/>
+                </f:facet>
+                <h:outputText value="#{bk.id}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">
+                    <h:outputText value="Title"/>
+                </f:facet>
+                <h:outputText value="#{bk.title}"/>
+
+            </h:column>
+            <h:column>
+                <f:facet name="header">
+                    <h:outputText value="Description"/>
+                </f:facet>
+                <h:outputText value="#{bk.description}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">
+                    <h:outputText value="NbOfPages"/>
+                </f:facet>
+                <h:outputText value="#{bk.nbOfPage}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">
+                    <h:outputText value="Version"/>
+                </f:facet>
+                <h:outputText value="#{bk.version}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">
+                    <h:outputText value="Publication Date"/>
+                </f:facet>
+                <h:outputText value="#{bk.publicationDate}">
+                    <f:convertDateTime type="date" dateStyle="medium"/>
+                </h:outputText>
+            </h:column>
+            <h:column>
+                <f:facet name="header">
+                    <h:outputText value="Type"/>
+                </f:facet>
+                <h:outputText value="#{bk.type.name}"/>
+            </h:column>
+            <h:column>
+                <h:form>
+                    <h:commandLink value="View " action="#{librarianController.doView(bk)}" class="btn btn-success"/>
+                    <h:commandLink value="Update " action="#{librarianController.doUpdate(bk)}" class="btn btn-primary"/>
+                    <h:commandLink value="Delete" action="#{librarianController.doDelete(bk)}" class="btn btn-warning"/>
+                </h:form>
+            </h:column>
+        </h:dataTable>
+        <h2>Your student profile</h2>
+        <h:form>
+            <h:commandLink value="Create Student profile" 
+                           action="#{librarianController.doCreateStudent()}"/>
+        </h:form>
+
+        <h:dataTable 
+            styleClass="table table-hover table-striped"
+            value="#{librarianController.librarianStudents}" 
+            var="st" class="table table-bordered">
+            <h:column>
+                <f:facet name="header">
+                    <h:outputText value="ID"/>
+                </f:facet>
+                <h:outputText value="#{st.id}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">
+                    <h:outputText value="First Name"/>
+                </f:facet>
+                <h:outputText value="#{st.firstName}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">
+                    <h:outputText value="Last Name"/>
+                </f:facet>
+                <h:outputText value="#{st.lastName}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">
+                    <h:outputText value="UserName"/>
+                </f:facet>
+                <h:outputText value="#{st.user.userName}" />
+            </h:column>
+            <h:column>
+                <h:form>
+                    <h:commandLink value="View " action="#{librarianController.doViews(st)}" class="btn btn-success"/>
+                    <h:commandLink value="Update " action="#{librarianController.doUpdates(st)}" class="btn btn-primary"/>
+                    <h:commandLink value="Delete" action="#{librarianController.doDeletes(st)}" class="btn btn-warning"/>                   
+                </h:form>  
+            </h:column>
+        </h:dataTable>
+        <h:form>
+            <h:commandLink action="#{loginController.doLogout()}" value="Logout" class="btn btn-success">
+            </h:commandLink>
+        </h:form>
+    </ui:define>
+</ui:composition>

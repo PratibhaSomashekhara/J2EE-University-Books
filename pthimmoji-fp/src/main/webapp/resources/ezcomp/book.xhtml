@@ -1,0 +1,103 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:cc="http://xmlns.jcp.org/jsf/composite"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://xmlns.jcp.org/jsf/passthrough">
+
+    <!-- INTERFACE -->
+    <cc:interface>
+        <cc:attribute name="book" required="true" type="model.Book"/>
+        <cc:attribute name="readonly" type="java.lang.Boolean" required="false" default="true" />
+        <cc:attribute name="action" required="false" method-signature="java.lang.String action()" />
+    </cc:interface>
+
+    <!-- IMPLEMENTATION -->
+    <cc:implementation>
+        <h:form>
+            <h:panelGroup layout="block" class="form-group">
+                <h:outputLabel for="bookId" value="Book ID #{cc.attrs.book.id}"/>
+                <h:inputHidden class="form-control" id="bookId" value="#{cc.attrs.book.id}" />
+                <h:message for="bookId" style="color:red" />
+            </h:panelGroup>
+
+            <h:panelGroup layout="block" class="form-group">
+                <h:outputLabel for="bookName" value="Book Name"/>
+                <h:inputText p:placeholder="Enter Book Name" 
+                             class="form-control" 
+                             id="bookName" 
+                             value="#{cc.attrs.book.title}" required="true"
+                             requiredMessage="Book Title is required"
+                             readonly="#{cc.attrs.readonly ? 'true' : 'false'}"
+                             />
+                <h:message for="bookName" style="color:red" />
+            </h:panelGroup>
+            
+               <h:panelGroup layout="block" class="form-group">
+                <h:outputLabel for="bookDesc" value="Book Description"/>
+                <h:inputText p:placeholder="Enter Book Description" 
+                             class="form-control" 
+                             id="bookDesc" 
+                             value="#{cc.attrs.book.description}" required="true"
+                             requiredMessage="Book Description is required"
+                             readonly="#{cc.attrs.readonly ? 'true' : 'false'}"
+                             />
+                <h:message for="bookDesc" style="color:red" />
+            </h:panelGroup>
+
+             <h:panelGroup layout="block" class="form-group">
+                <h:outputLabel for="bookPages" value="Book Pages"/>
+                <h:inputText p:placeholder="Enter Book Pages" 
+                             class="form-control" 
+                             id="bookPages" 
+                             value="#{cc.attrs.book.nbOfPage}" required="true"
+                             requiredMessage="Enter number of pages"
+                             readonly="#{cc.attrs.readonly ? 'true' : 'false'}"
+                             />
+                <h:message for="bookPages" style="color:red" />
+            </h:panelGroup>
+            
+             <h:panelGroup layout="block" class="form-group">
+                <h:outputLabel for="bookVersion" value="Book Version"/>
+                <h:inputText p:placeholder="Enter Book version" 
+                             class="form-control" 
+                             id="bookVersion" 
+                             value="#{cc.attrs.book.version}" required="true"
+                              requiredMessage="Book Version is required"
+                             readonly="#{cc.attrs.readonly ? 'true' : 'false'}"
+                             />
+                <h:message for="bookVersion" style="color:red" />
+            </h:panelGroup>
+            
+            <h:panelGroup layout="block" class="form-group">
+                <h:outputLabel for="bookPublicationDate" value="Book Publication Date"/>
+                <h:inputText class="form-control" 
+                             id="bookPublicationDate" 
+                             value="#{cc.attrs.book.publicationDate}" required="true"
+                             requiredMessage="Book publication date(mm/dd/yyyy) is required"
+                             readonly="#{cc.attrs.readonly ? 'true' : 'false'}">
+                    <f:convertDateTime type="date" dateStyle="short"/>
+                </h:inputText>
+                <h:message for="bookPublicationDate" style="color:red" />
+            </h:panelGroup>
+
+            <h:panelGroup layout="block" class="form-group">
+                <h:outputLabel for="bookType" value="Book Type"/>
+                <h:selectOneListbox class="form-control" 
+                                    id="bookType"  
+                                    value="#{cc.attrs.book.type.id}" 
+                                    readonly="#{cc.attrs.readonly ? 'true' : 'false'}">
+                    <f:selectItems value="#{bookTypeService.findAll()}" var="bookType" itemLabel="#{bookType.name}" itemValue="#{bookType.id}"/>
+                </h:selectOneListbox>
+                <h:message for="bookType" style="color:red" />
+            </h:panelGroup>
+
+            <ui:fragment rendered="#{not cc.attrs.readonly}">
+                <h:commandButton class="btn btn-default" value="Save Me" action="#{cc.attrs.action}" />
+            </ui:fragment>
+
+        </h:form>
+    </cc:implementation>
+</html>

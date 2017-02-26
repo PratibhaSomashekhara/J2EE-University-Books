@@ -1,0 +1,29 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./WEB-INF/templates/pubTemplate.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html">
+
+    <ui:define name="title">
+        User Login
+    </ui:define>
+
+    <ui:define name="content">
+        <h:form>
+            <h:panelGroup layout="block" styleClass="#{j_username.valid ? 'form-group' : 'form-group has-error'}">
+                <h:outputLabel class="control-label" for="j_username" value="Username"/>
+                <h:inputText binding="#{j_username}" class="form-control" id="j_username" value="#{loginController.username}"/>
+                <h:message for="j_username" style="color:red" />
+            </h:panelGroup>
+            
+            <h:panelGroup layout="block" styleClass="#{j_password.valid ? 'form-group' : 'form-group has-error'}">
+                <h:outputLabel class="control-label" for="j_username" value="Password"/>
+                <h:inputSecret binding="#{j_password}" class="form-control" id="j_password" value="#{loginController.password}" required="true" />
+                <h:message for="j_password" style="color:red" />
+            </h:panelGroup>
+
+            <h:commandButton action="#{loginController.doLogin()}" value="Login" class="btn btn-success"/>
+        </h:form>
+    </ui:define>
+
+</ui:composition>
